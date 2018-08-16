@@ -15,8 +15,7 @@ class LagouSpider(scrapy.Spider):
 
     custom_settings = {
         'DOWNLOADER_MIDDLEWARES': {
-            'lagou_spider.middlewares.ProxyDownloaderMiddleware': 1,
-            # 'pdf_Spider.middlewares.ProxyDownloaderMiddleware': 1,
+            # 'lagou_spider.middlewares.ProxyDownloaderMiddleware': 2,
             'lagou_spider.middlewares.UserAgentDownloaderMiddleware': 1
         },
         'SET_UA': 'random'
@@ -53,15 +52,15 @@ class LagouSpider(scrapy.Spider):
         all_page = page_response.css('div.pager_container>span:nth-last-child(2)::text').extract_first().strip()
         all_page = int(all_page)
         for i in range(1,all_page+1):
-            time.sleep(1)
+            time.sleep(5)
             is_first = 'true' if i == 1 else 'false'
             formdata = {'first': is_first, 'pn': str(i),'kd':'python'}
             yield FormRequest(url=self.start_urls[0], formdata=formdata, callback=self.parse_list, meta={'index':i}, headers=self.headers)
 
     def parse_jobs(self, response):
-        descr = response.css('.description>div')
+        descr = response.css('.description+div').extract_first()
         self.job_item['job_descr'] = descr
-        pass
+        yield self.job_item
 
     def parse_list(self, response):
         import json
@@ -87,6 +86,6 @@ class LagouSpider(scrapy.Spider):
             job_comp_url = self.temp_comp_url.format(job['companyId'])
             self.job_item['job_comp_url'] = job_comp_url
 
-            time.sleep(1)
+            time.sleep(5)
             yield Request(url=job_url, callback=self.parse_jobs, method='GET', headers=self.headers,
                           cookies=LagouSpider.COOKIES_DICT)

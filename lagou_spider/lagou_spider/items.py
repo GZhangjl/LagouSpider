@@ -6,7 +6,17 @@
 # https://doc.scrapy.org/en/latest/topics/items.html
 
 import scrapy
-from scrapy.loader import ItemLoader
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+
+engine = create_engine('mysql://root:root@localhost:3306/zhihu?charset=utf8',echo=True)
+Base = declarative_base()
+
+class LagouJob(Base):
+
+    __tablename__ = 'lagouJob'
+
+    pass
 
 class LagouSpiderItem(scrapy.Item):
 
@@ -27,4 +37,5 @@ class LagouSpiderItem(scrapy.Item):
 
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    def item_member(self):
+        return LagouJob()
