@@ -13,6 +13,7 @@ from sqlalchemy import Column, VARCHAR, CHAR, INT, TEXT
 sql_engine = create_engine('mysql://root:root@localhost:3306/lagou?charset=utf8',echo=True)
 Base = declarative_base()
 
+
 class LagouSpiderItem(scrapy.Item):
 
     job_id = scrapy.Field()

@@ -35,6 +35,7 @@ class StoragePipeline(object):
                       nature=item['job_nature'], adv=item['job_adv'], descr=item['job_descr'], district=item['job_district'],
                       position=item['job_position'], comp_label=item['job_comp_label'], comp_url=item['job_comp_url'])
         self.session.add(one_job)
+        # self.session.merge(one_job)
         self.session.commit()
 
     def close_spider(self, spider):
