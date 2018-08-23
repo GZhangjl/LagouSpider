@@ -20,7 +20,7 @@ from lagou_spider.items import LagouSpiderItem
 class LagouSpider(CrawlSpider):
     name = 'lagou_fail'
     allowed_domains = ['lagou.com']
-    #登陆页面，用于模拟登陆，但是实际情况应该不许登陆也能够浏览职位列表页和详情页
+    #登陆页面，用于模拟登陆，但是实际情况应该无需登陆也能够浏览职位列表页和详情页
     login_url = 'https://passport.lagou.com/login/login.html'
     #以下页面为列表页json文件，正常使用爬虫访问拉勾网搜索页面返回结果中无法显示职位信息（被隐藏），通过查看浏览器开发者工具发现该json文件
     #但是该链接如果浏览器正常打开会显示访问过于频繁提醒页，故需要结合headers信息等模拟访问
@@ -50,7 +50,7 @@ class LagouSpider(CrawlSpider):
     )
 
     def start_requests(self):
-        #
+
         # web_driver = webdriver.Chrome(r'C:\Users\zhang\chromedriver_win32\chromedriver.exe')
         # web_driver.get(url=self.login_url)
         # web_driver.find_element_by_css_selector('div[data-view=passwordLogin]>form>div:first-child>input').send_keys('zhangjl_0912@163.com')
